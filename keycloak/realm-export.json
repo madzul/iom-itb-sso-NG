@@ -69,6 +69,12 @@
         "description": "Staf bendahara dengan akses ke aplikasi Akunting.",
         "composite": false,
         "clientRole": false
+      },
+      {
+        "name": "penulis-konten",
+        "description": "Penulis konten yang mengelola kegiatan dan konten di Web dashboard.",
+        "composite": false,
+        "clientRole": false
       }
     ]
   },
@@ -76,8 +82,8 @@
     {
       "clientId": "frontend-1",
       "name": "IOM Frontend",
-      "description": "Production frontend at iom.kirisame.jp.net",
-      "enabled": true,
+      "description": "Legacy frontend client (iom.kirisame.jp.net) - dinonaktifkan; app publik tidak memakai SSO",
+      "enabled": false,
       "publicClient": true,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
@@ -113,7 +119,46 @@
         }
       ]
     },
-
+    {
+      "clientId": "iom-itb-admin",
+      "name": "IOM Admin Dashboard",
+      "description": "Admin dashboard SPA at admin-ng.iom-itb.id",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "redirectUris": [
+        "https://admin-ng.iom-itb.id/*"
+      ],
+      "webOrigins": [
+        "https://admin-ng.iom-itb.id"
+      ],
+      "rootUrl": "https://admin-ng.iom-itb.id",
+      "baseUrl": "https://admin-ng.iom-itb.id",
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "https://admin-ng.iom-itb.id/*",
+        "oidc.ciba.grant.enabled": "false",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "backend-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "backend-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
     {
       "clientId": "backend-api",
       "name": "Backend API",
@@ -138,14 +183,9 @@
       "lastName": "User",
       "enabled": true,
       "emailVerified": true,
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password123",
-          "temporary": false
-        }
-      ],
-      "realmRoles": ["mahasiswa"]
+      "realmRoles": [
+        "mahasiswa"
+      ]
     },
     {
       "username": "admin",
@@ -154,14 +194,9 @@
       "lastName": "User",
       "enabled": true,
       "emailVerified": true,
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password123",
-          "temporary": false
-        }
-      ],
-      "realmRoles": ["admin"]
+      "realmRoles": [
+        "admin"
+      ]
     }
   ],
   "identityProviders": [
